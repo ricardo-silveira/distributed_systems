@@ -5,6 +5,7 @@ In order to successfully compile and run the code from this repository do the fo
 ### Compiling
 
 ```sh
+$ rpcgen -C square.x
 $ gcc -c client.c -o client.o
 $ gcc -c square_clnt.c -o square_clnt.o
 $ gcc -c square_xdr.c -o square_xdr.o
