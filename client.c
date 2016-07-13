@@ -7,16 +7,16 @@
 
 
 void *myFun(void *x){
-    printf("bbb\n");
     square_out  *outp;
     thread_args *tArgs;
     tArgs = ((thread_args *) x); 
-    printf("ccc\n");
     if ( (outp = squareproc_1(&tArgs->args, tArgs->cl)) == NULL){
-        printf("asdfasf");exit(0);}
-    printf("ddd\n");
+        printf("fuckit");
+        }
+        else{
+    printf("hey oh!");
     printf("%ld\n", outp->res1);
-    return NULL;
+    }return NULL;
 }
 
 int main(int argc, char **argv){
@@ -31,7 +31,7 @@ int main(int argc, char **argv){
 
     // Should read from csv file
     int N = 3;
-    int M = 3;
+    int M = 1000000;
 
     // Creating randomVector
     randomVector = malloc(N*sizeof(int*));
