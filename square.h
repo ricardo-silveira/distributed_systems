@@ -14,10 +14,11 @@ extern "C" {
 #endif
 
 
-struct square_in {
-	long arg1;
+struct rpc_args {
+	int *vector_slice;
+	int slice_size;
 };
-typedef struct square_in square_in;
+typedef struct rpc_args rpc_args;
 
 struct square_out {
 	long res1;
@@ -29,8 +30,8 @@ typedef struct square_out square_out;
 
 #if defined(__STDC__) || defined(__cplusplus)
 #define SQUAREPROC 1
-extern  square_out * squareproc_1(square_in *, CLIENT *);
-extern  square_out * squareproc_1_svc(square_in *, struct svc_req *);
+extern  square_out * squareproc_1(rpc_args *, CLIENT *);
+extern  square_out * squareproc_1_svc(rpc_args *, struct svc_req *);
 extern int square_prog_1_freeresult (SVCXPRT *, xdrproc_t, caddr_t);
 
 #else /* K&R C */
@@ -43,11 +44,11 @@ extern int square_prog_1_freeresult ();
 /* the xdr functions */
 
 #if defined(__STDC__) || defined(__cplusplus)
-extern  bool_t xdr_square_in (XDR *, square_in*);
+extern  bool_t xdr_rpc_args (XDR *, rpc_args*);
 extern  bool_t xdr_square_out (XDR *, square_out*);
 
 #else /* K&R C */
-extern bool_t xdr_square_in ();
+extern bool_t xdr_rpc_args ();
 extern bool_t xdr_square_out ();
 
 #endif /* K&R C */

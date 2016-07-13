@@ -20,7 +20,7 @@ static void
 square_prog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 {
 	union {
-		square_in squareproc_1_arg;
+		rpc_args squareproc_1_arg;
 	} argument;
 	char *result;
 	xdrproc_t _xdr_argument, _xdr_result;
@@ -32,7 +32,7 @@ square_prog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 		return;
 
 	case SQUAREPROC:
-		_xdr_argument = (xdrproc_t) xdr_square_in;
+		_xdr_argument = (xdrproc_t) xdr_rpc_args;
 		_xdr_result = (xdrproc_t) xdr_square_out;
 		local = (char *(*)(char *, struct svc_req *)) squareproc_1_svc;
 		break;
@@ -87,5 +87,5 @@ main (int argc, char **argv)
 	svc_run ();
 	fprintf (stderr, "%s", "svc_run returned");
 	exit (1);
-	// NOTREACHED 
+	/* NOTREACHED */
 }

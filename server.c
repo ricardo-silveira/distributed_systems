@@ -6,12 +6,9 @@
     #include"stdlib.h"
     #include"math.h"
     
-    square_out *squareproc_1_svc(square_in *inp,struct svc_req *rqstp)
+    square_out *squareproc_1_svc(rpc_args *inp,struct svc_req *rqstp)
     {
-    
         static square_out out;
-        out.res1 = inp->arg1 * inp->arg1;
-        inp->arg1 = out.res1;
-        printf("%ld\n", inp->arg1);
+        out.res1 = inp->vector_slice[0];
         return(&out);
     }

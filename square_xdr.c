@@ -6,11 +6,13 @@
 #include "square.h"
 
 bool_t
-xdr_square_in (XDR *xdrs, square_in *objp)
+xdr_rpc_args (XDR *xdrs, rpc_args *objp)
 {
 	register int32_t *buf;
 
-	 if (!xdr_long (xdrs, &objp->arg1))
+	 if (!xdr_pointer (xdrs, (char **)&objp->vector_slice, sizeof (int), (xdrproc_t) xdr_int))
+		 return FALSE;
+	 if (!xdr_int (xdrs, &objp->slice_size))
 		 return FALSE;
 	return TRUE;
 }
