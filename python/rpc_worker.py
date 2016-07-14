@@ -24,14 +24,13 @@ class RPCWorker(Thread):
         Running all tasks in queue
         """
         while True:
-            queue_data = self.queue.get()
-            method_name = queue_data[0]
-            params = queue_data[1]
-            payload = {"method": method_name,
-                       "params": params,
+            rpc_data = self.queue.get()
+            payload = {"method": rpc_data["method"],
+                       "params": rpc_data["params"],
                        "jsonrpc": "2.0",
                        "id": 0}
-            requests.post(self.url,
-                          data=json.dumps(payload),
-                          headers=self.headers)
+            response = requests.post(self.url,
+                                     data=json.dumps(payload),
+                                     headers=self.headers)
+            rpc_data["result"] = json.loads(response.content)["result"]
             self.queue.task_done()

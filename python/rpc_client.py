@@ -3,8 +3,8 @@ This module implements a basic client for rpc
 """
 from queue import Queue
 from rpc_worker import RPCWorker
-import numpy as np
-import pandas as pd
+from random import random
+#import pandas as pd
 import time
 
 
@@ -23,6 +23,7 @@ if __name__ == "__main__":
         params_by_method = [("exp_diff_null_vector", {}),
                             ("random_wave", {"amplitude": 1e3, "t": 1}),
                             ("meaning_vector", {})]
+        params_by_method = params_by_method[:1]
         for method_name, params in params_by_method:
             # Running 10 times for time measuring
             print "Method: %s" % method_name
@@ -30,9 +31,12 @@ if __name__ == "__main__":
                 print "%d-th time" % (__t+1)
                 # Starting new vector of random values
                 for __i in xrange(__k):
-                    vec_k[__i] = np.random.random(__N/__k)
+                    vec_k[__i] = [0]*(__N/__k)
+                    for __j in xrange(__N/__k):
+                        vec_k[__i][__j] = random()
                 queue = Queue()
                 index_data.append((method_name, __k, __t))
+                print vec_k[0][0]
                 # starting time counter
                 start_time = time.time()
                 # Working with k threads
@@ -40,8 +44,11 @@ if __name__ == "__main__":
                     worker = RPCWorker(queue)
                     worker.daemon = True
                     worker.start()
+                data = vec_k
                 for vec_slice in vec_k:
-                    queue.put(method_name, [vec_slice, params])
+                    queue.put({"method": method_name,
+                               "return": data,
+                               "params": [vec_slice, params]})
                 queue.join()
                 # passed time
                 d_t = time.time() - start_time
